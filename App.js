@@ -13,7 +13,7 @@ const SmileApp = () => {
   const [size, setSize] = useState(3);
 
   useEffect(() => {
-    lvl.value = size;
+    lvl.value = withSpring(size);
   }, [size]);
 
   const text = useMemo(() => {
@@ -29,7 +29,7 @@ const SmileApp = () => {
   const style = useAnimatedStyle(() => {
     return {
       fontSize: 10 + 4 * lvl.value,
-      fontWeight: (400 + 100 * (lvl.value - 1)).toString(),
+      fontWeight: (400 + 100 * Math.round(lvl.value - 1)).toString(),
     };
   });
 
