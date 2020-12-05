@@ -6,6 +6,7 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from "react-native-reanimated";
+import { interpolateColor } from "react-native-redash";
 import { AppRegistry, StyleSheet, View, Text } from "react-native";
 
 const SmileApp = () => {
@@ -18,7 +19,7 @@ const SmileApp = () => {
 
   const text = useMemo(() => {
     return {
-      1: "worst",
+      1: "bad",
       2: "don't like",
       3: "neutral",
       4: "like",
@@ -33,8 +34,18 @@ const SmileApp = () => {
     };
   });
 
+  const background = useAnimatedStyle(() => {
+    return {
+      backgroundColor: interpolateColor(
+        lvl.value,
+        [1, 3, 5],
+        ["#c52c27", "#228B22", "#00BFFF"]
+      ),
+    };
+  });
+
   return (
-    <View style={styles.container}>
+    <Animated.View style={[styles.container, background]}>
       <Slider
         value={size}
         useNativeDriver={true}
@@ -44,16 +55,16 @@ const SmileApp = () => {
         step={1}
       />
       <Animated.Text style={[styles.text, style]}>{text}</Animated.Text>
-    </View>
+    </Animated.View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "red",
+    flex: 1,
     paddingTop: 60,
     padding: 40,
-    marginLeft: 10,
-    marginRight: 10,
     alignItems: "stretch",
     justifyContent: "center",
   },
