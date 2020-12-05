@@ -11,16 +11,22 @@ import Animated, {
   repeat,
   useAnimatedProps,
 } from "react-native-reanimated";
-import { interpolateColor, parse, interpolatePath } from "react-native-redash";
+import {
+  interpolateColor,
+  parse,
+  interpolatePath,
+  withPause,
+} from "react-native-redash";
 import { View } from "react-native";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
 const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
-const Smile = ({ lvl }) => {
+const Smile = ({ lvl, lvlState }) => {
   const star1 = useSharedValue(0);
   const drop = useSharedValue(0);
+  const paused = useSharedValue(false);
 
   useEffect(() => {
     star1.value = repeat(
@@ -31,15 +37,26 @@ const Smile = ({ lvl }) => {
       -1,
       true
     );
-    drop.value = repeat(
-      withTiming(100, {
-        duration: 1500,
-        easing: Easing.inOut(Easing.linear),
-      }),
-      -1,
-      false
+    drop.value = withPause(
+      repeat(
+        withTiming(100, {
+          duration: 1500,
+          easing: Easing.inOut(Easing.linear),
+        }),
+        -1,
+        false
+      ),
+      paused
     );
   }, []);
+
+  useEffect(() => {
+    if (lvlState > 1) {
+      paused.value = true;
+    } else {
+      paused.value = false;
+    }
+  }, [lvlState]);
 
   const smile1 = parse(
     "M 132.217 119.273 C 102.588 174.206 55.253 123.195 64.217 116.835"
