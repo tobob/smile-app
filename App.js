@@ -14,7 +14,11 @@ const SmileApp = () => {
   const [size, setSize] = useState(3);
 
   useEffect(() => {
-    lvl.value = withSpring(size);
+    lvl.value = withSpring(size, {
+      damping: 5,
+      mass: 0.4,
+      stiffness: 30,
+    });
   }, [size]);
 
   const text = useMemo(() => {
@@ -39,7 +43,7 @@ const SmileApp = () => {
       backgroundColor: interpolateColor(
         lvl.value,
         [1, 3, 5],
-        ["#c52c27", "#228B22", "#00BFFF"]
+        ["#c52c27", "#ffffff", "#20B2AA"]
       ),
     };
   });
