@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg">
+  <circle style="fill: rgb(70, 175, 186);" cx="98.051" cy="102.745" r="56.401"/>
+  <circle style="fill: rgb(255, 255, 255);" cx="76.905" cy="86.722" r="13.278"/>
+  <circle style="fill: rgb(255, 255, 255);" cx="112.972" cy="87.028" r="12.972"/>
+  <path style="stroke: rgb(0, 0, 0); fill: none;" d="M 132.217 119.273 C 102.588 174.206 55.253 123.195 64.217 116.835"/>
+  <path style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" d="M 248.578 281.519"/>
+  <path style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" d="M 183.609 223.685"/>
+  <path style="fill: rgb(216, 216, 216); stroke: rgb(0, 0, 0);" d="M 429.068 239.321"/>
+</svg>
