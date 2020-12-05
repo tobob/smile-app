@@ -1,28 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Slider from "react-native-smooth-slider";
 import { AppRegistry, StyleSheet, View, Text } from "react-native";
 
-class SliderExample extends React.Component {
-  state = {
-    value: 1,
-  };
+const SmileApp = () => {
+  const [size, setSize] = useState(1);
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Slider
-          value={this.state.value}
-          useNativeDriver={true}
-          onValueChange={(value) => this.setState({ value })}
-          maximumValue={5}
-          minimumValue={1}
-          step={1}
-        />
-        <Text>Value: {this.state.value}</Text>
-      </View>
-    );
-  }
-}
+  return (
+    <View style={styles.container}>
+      <Slider
+        value={size}
+        useNativeDriver={true}
+        onValueChange={(value) => setSize(value)}
+        maximumValue={5}
+        minimumValue={1}
+        step={1}
+      />
+      <Text>Value: {size}</Text>
+    </View>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -35,4 +31,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default SliderExample;
+export default SmileApp;
