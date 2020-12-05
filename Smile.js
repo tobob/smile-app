@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import Svg, { Circle, Path } from "react-native-svg";
 
 import Animated, {
@@ -6,14 +6,31 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
+  Easing,
+  repeat,
   useAnimatedProps,
 } from "react-native-reanimated";
 import { interpolateColor, parse, interpolatePath } from "react-native-redash";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
+const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
 const Smile = ({ lvl }) => {
+  const star1 = useSharedValue(0);
+
+  useEffect(() => {
+    star1.value = repeat(
+      withTiming(360, {
+        duration: 3000,
+        easing: Easing.in(Easing.cubic),
+      }),
+      -1,
+      false
+    );
+  }, []);
+
   const smile1 = parse(
     "M 132.217 119.273 C 102.588 174.206 55.253 123.195 64.217 116.835"
   );
@@ -60,28 +77,89 @@ const Smile = ({ lvl }) => {
     };
   });
 
+  const star1Style = useAnimatedStyle(() => {
+    return {
+      transform: [
+        {
+          rotate: `${star1.value}deg`,
+        },
+      ],
+    };
+  });
+
+  const starColor1 = useAnimatedProps(() => {
+    const fill = interpolateColor(
+      lvl.value,
+      [1, 5],
+      ["#FFFFFF00", "#FFFFFFFF"]
+    );
+    return {
+      fill,
+    };
+  });
+
+  const starColor2 = useAnimatedProps(() => {
+    const fill = interpolateColor(
+      lvl.value,
+      [1, 5],
+      ["#ffff0000", "#ffff00FF"]
+    );
+    return {
+      fill,
+    };
+  });
+
   return (
-    <Svg
-      viewBox="25 40 130 130"
-      xmlns="http://www.w3.org/2000/svg"
-      height={300}
-      width={300}
-    >
-      <AnimatedCircle
-        cx={98.051}
-        cy={102.745}
-        animatedProps={head}
-        fill="#46afba"
-      />
-      <AnimatedCircle
-        cx={76.905}
-        cy={80.722}
-        animatedProps={eye1}
-        fill="#fff"
-      />
-      <AnimatedCircle cx={112.972} cy={77.028} r={12.972} fill="#fff" />
-      <AnimatedPath animatedProps={smile} stroke="#00000000" fill="#0000006f" />
-    </Svg>
+    <>
+      <Svg
+        viewBox="0 0 200 200"
+        xmlns="http://www.w3.org/2000/svg"
+        height={300}
+        width={300}
+      >
+        <AnimatedCircle
+          cx={98.051}
+          cy={102.745}
+          animatedProps={head}
+          fill="#46afba"
+        />
+        <AnimatedCircle
+          cx={76.905}
+          cy={80.722}
+          animatedProps={eye1}
+          fill="#fff"
+        />
+        <AnimatedCircle cx={112.972} cy={77.028} r={12.972} fill="#fff" />
+        <AnimatedPath
+          animatedProps={smile}
+          stroke="#00000000"
+          fill="#0000006f"
+        />
+      </Svg>
+
+      <AnimatedSvg
+        style={[
+          {
+            position: "absolute",
+            left: 70,
+          },
+          star1Style,
+        ]}
+        viewBox="0 0 300 300"
+        xmlns="http://www.w3.org/2000/svg"
+        height={200}
+        width={200}
+      >
+        <AnimatedPath
+          d="M46.109 36.929l-14.857 1.79-3.484 14.553-6.293-13.576-14.918 1.183 10.967-10.181-5.735-13.822 13.072 7.284 11.373-9.724-2.89 14.682z"
+          animatedProps={starColor1}
+        />
+        <AnimatedPath
+          d="M165.74 60.791l-15.463-2.58-7.794 13.602-2.324-15.503-15.346-3.208L138.84 46.1l-1.692-15.586 10.995 11.177 14.3-6.424-7.232 13.91z"
+          animatedProps={starColor2}
+        />
+      </AnimatedSvg>
+    </>
   );
 };
 
