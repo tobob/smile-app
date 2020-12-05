@@ -52,7 +52,7 @@ const SmileApp = () => {
 
   return (
     <Animated.View style={[styles.container, background]}>
-      <Smile />
+      <Smile lvl={lvl} />
       <Slider
         value={size}
         useNativeDriver={true}
