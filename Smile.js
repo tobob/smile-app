@@ -12,6 +12,7 @@ import Animated, {
   useAnimatedProps,
 } from "react-native-reanimated";
 import { interpolateColor, parse, interpolatePath } from "react-native-redash";
+import { View } from "react-native";
 
 const AnimatedCircle = Animated.createAnimatedComponent(Circle);
 const AnimatedPath = Animated.createAnimatedComponent(Path);
@@ -22,12 +23,12 @@ const Smile = ({ lvl }) => {
 
   useEffect(() => {
     star1.value = repeat(
-      withTiming(360, {
-        duration: 3000,
-        easing: Easing.in(Easing.cubic),
+      withTiming(60, {
+        duration: 500,
+        easing: Easing.in(Easing.linear),
       }),
       -1,
-      false
+      true
     );
   }, []);
 
@@ -83,6 +84,13 @@ const Smile = ({ lvl }) => {
         {
           rotate: `${star1.value}deg`,
         },
+        {
+          scale: interpolate(
+            star1.value,
+            [0, 100, 180, 260, 360],
+            [1, 1.4, 2.3, 1, 1]
+          ),
+        },
       ],
     };
   });
@@ -90,19 +98,8 @@ const Smile = ({ lvl }) => {
   const starColor1 = useAnimatedProps(() => {
     const fill = interpolateColor(
       lvl.value,
-      [1, 5],
-      ["#FFFFFF00", "#FFFFFFFF"]
-    );
-    return {
-      fill,
-    };
-  });
-
-  const starColor2 = useAnimatedProps(() => {
-    const fill = interpolateColor(
-      lvl.value,
-      [1, 5],
-      ["#ffff0000", "#ffff00FF"]
+      [1, 2, 3, 5],
+      ["#ffff0000", "#ffff0000", "#ffff0000", "#ffff00FF"]
     );
     return {
       fill,
@@ -110,7 +107,7 @@ const Smile = ({ lvl }) => {
   });
 
   return (
-    <>
+    <View>
       <Svg
         viewBox="0 0 200 200"
         xmlns="http://www.w3.org/2000/svg"
@@ -141,25 +138,22 @@ const Smile = ({ lvl }) => {
         style={[
           {
             position: "absolute",
-            left: 70,
+            right: 50,
+            top: 40,
           },
           star1Style,
         ]}
-        viewBox="0 0 300 300"
+        viewBox="0 0 50 65"
         xmlns="http://www.w3.org/2000/svg"
-        height={200}
-        width={200}
+        height={70}
+        width={70}
       >
         <AnimatedPath
           d="M46.109 36.929l-14.857 1.79-3.484 14.553-6.293-13.576-14.918 1.183 10.967-10.181-5.735-13.822 13.072 7.284 11.373-9.724-2.89 14.682z"
           animatedProps={starColor1}
         />
-        <AnimatedPath
-          d="M165.74 60.791l-15.463-2.58-7.794 13.602-2.324-15.503-15.346-3.208L138.84 46.1l-1.692-15.586 10.995 11.177 14.3-6.424-7.232 13.91z"
-          animatedProps={starColor2}
-        />
       </AnimatedSvg>
-    </>
+    </View>
   );
 };
 
