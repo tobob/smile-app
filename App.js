@@ -2,10 +2,12 @@ import React, { useEffect, useState, useMemo } from "react";
 import Slider from "react-native-smooth-slider";
 
 import Animated, {
+  Easing,
   interpolate,
   useAnimatedStyle,
   useSharedValue,
   withSpring,
+  withTiming,
 } from "react-native-reanimated";
 import { interpolateColor } from "react-native-redash";
 import { AppRegistry, StyleSheet, View, Text } from "react-native";
@@ -16,10 +18,9 @@ const SmileApp = () => {
   const [size, setSize] = useState(3);
 
   useEffect(() => {
-    lvl.value = withSpring(size, {
-      damping: 5,
-      mass: 0.4,
-      stiffness: 30,
+    lvl.value = withTiming(size, {
+      duration: 600,
+      easing: Easing.inOut(Easing.circle),
     });
   }, [size]);
 

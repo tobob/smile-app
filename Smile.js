@@ -31,7 +31,7 @@ const Smile = ({ lvl }) => {
   );
 
   const head = useAnimatedProps(() => {
-    const r = interpolate(lvl.value, [1, 5], [40, 56]);
+    const r = interpolate(lvl.value, [1, 5], [50, 56]);
     const fill = interpolateColor(lvl.value, [1, 5], ["#FF748C", "#00FF00"]);
     return {
       r,
@@ -54,14 +54,9 @@ const Smile = ({ lvl }) => {
   });
 
   const smile = useAnimatedProps(() => {
-    const d = interpolatePath(
-      lvl.value,
-      [1, 2, 3, 4, 5],
-      [smile5, smile4, smile3, smile2, smile1]
-    );
+    const d = interpolatePath(lvl.value, [1, 5], [smile5, smile1]);
     return {
       d,
-      strokeWidth: lvl.value,
     };
   });
 
@@ -80,12 +75,12 @@ const Smile = ({ lvl }) => {
       />
       <AnimatedCircle
         cx={76.905}
-        cy={86.722}
+        cy={80.722}
         animatedProps={eye1}
         fill="#fff"
       />
-      <AnimatedCircle cx={112.972} cy={87.028} r={12.972} fill="#fff" />
-      <AnimatedPath animatedProps={smile} stroke="#00000000" fill="#fff" />
+      <AnimatedCircle cx={112.972} cy={77.028} r={12.972} fill="#fff" />
+      <AnimatedPath animatedProps={smile} stroke="#00000000" fill="#0000006f" />
     </Svg>
   );
 };
