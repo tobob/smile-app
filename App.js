@@ -20,7 +20,7 @@ const SmileApp = () => {
   useEffect(() => {
     lvl.value = withTiming(size, {
       duration: 600,
-      easing: Easing.inOut(Easing.circle),
+      easing: Easing.in(Easing.sin),
     });
   }, [size]);
 

@@ -20,6 +20,7 @@ const AnimatedSvg = Animated.createAnimatedComponent(Svg);
 
 const Smile = ({ lvl }) => {
   const star1 = useSharedValue(0);
+  const drop = useSharedValue(0);
 
   useEffect(() => {
     star1.value = repeat(
@@ -29,6 +30,14 @@ const Smile = ({ lvl }) => {
       }),
       -1,
       true
+    );
+    drop.value = repeat(
+      withTiming(100, {
+        duration: 1500,
+        easing: Easing.inOut(Easing.linear),
+      }),
+      -1,
+      false
     );
   }, []);
 
@@ -95,6 +104,23 @@ const Smile = ({ lvl }) => {
     };
   });
 
+  const dropProps = useAnimatedProps(() => {
+    return {
+      cy: drop.value,
+      fill: interpolateColor(
+        drop.value,
+        [0, 10, 50, 90, 100],
+        ["#1414EF00", "#1414EF50", "#1414EFFF", "#1414EF50", "#1414EF00"]
+      ),
+    };
+  });
+
+  const dropOpacityStyle = useAnimatedStyle(() => {
+    return {
+      opacity: `${interpolate(lvl.value, [1, 2, 3, 5], [100, 40, 0, 0])}%`,
+    };
+  });
+
   const starColor1 = useAnimatedProps(() => {
     const fill = interpolateColor(
       lvl.value,
@@ -152,6 +178,15 @@ const Smile = ({ lvl }) => {
           d="M46.109 36.929l-14.857 1.79-3.484 14.553-6.293-13.576-14.918 1.183 10.967-10.181-5.735-13.822 13.072 7.284 11.373-9.724-2.89 14.682z"
           animatedProps={starColor1}
         />
+      </AnimatedSvg>
+      <AnimatedSvg
+        style={[{ position: "absolute", left: 60, top: 150 }, dropOpacityStyle]}
+        viewBox="0 0 100 100"
+        xmlns="http://www.w3.org/2000/svg"
+        height={100}
+        width={100}
+      >
+        <AnimatedCircle cx={50} animatedProps={dropProps} r={7} />
       </AnimatedSvg>
     </View>
   );
