@@ -10,6 +10,7 @@ import Animated, {
   Easing,
   repeat,
   useAnimatedProps,
+  useDerivedValue,
 } from "react-native-reanimated";
 import {
   interpolateColor,
@@ -90,13 +91,6 @@ const Smile = ({ lvl, lvlState }) => {
     };
   });
 
-  const eye2 = useAnimatedProps(() => {
-    const r = interpolate(lvl.value, [1, 5], [13, 7]);
-    return {
-      r,
-    };
-  });
-
   const smile = useAnimatedProps(() => {
     const d = interpolatePath(lvl.value, [1, 5], [smile5, smile1]);
     return {
@@ -124,17 +118,8 @@ const Smile = ({ lvl, lvlState }) => {
   const dropProps = useAnimatedProps(() => {
     return {
       cy: drop.value,
-      fill: interpolateColor(
-        drop.value,
-        [0, 10, 50, 90, 100],
-        ["#1414EF00", "#1414EF50", "#1414EFFF", "#1414EF50", "#1414EF00"]
-      ),
-    };
-  });
-
-  const dropOpacityStyle = useAnimatedStyle(() => {
-    return {
-      opacity: `${interpolate(lvl.value, [1, 2, 3, 5], [100, 40, 0, 0])}%`,
+      fill: `#1414EF`,
+      fillOpacity: lvl.value <= 2 ? 1 : 0,
     };
   });
 
@@ -197,13 +182,13 @@ const Smile = ({ lvl, lvlState }) => {
         />
       </AnimatedSvg>
       <AnimatedSvg
-        style={[{ position: "absolute", left: 60, top: 150 }, dropOpacityStyle]}
+        style={[{ zIndex: 4, position: "absolute", left: 60, top: 110 }]}
         viewBox="0 0 100 100"
         xmlns="http://www.w3.org/2000/svg"
         height={100}
         width={100}
       >
-        <AnimatedCircle cx={50} animatedProps={dropProps} r={7} />
+        <AnimatedCircle cx={50} r={7} animatedProps={dropProps} />
       </AnimatedSvg>
     </View>
   );
